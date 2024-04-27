@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "45777990788",
+    "project_id": "clean-art-eb945",
+    "storage_bucket": "clean-art-eb945.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45777990788:android:43492d8096f80ffb047ed1",
+        "android_client_info": {
+          "package_name": "com.example.clean_art"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDleaOxkX0vAmtJxsPCwOO9mUJLx6XEYno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
