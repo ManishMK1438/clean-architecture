@@ -1,10 +1,8 @@
-import 'package:clean_art/core/themes/app_theme.dart';
-import 'package:clean_art/features/auth/presentation/screens/sign_up_screens/sign_up_screen.dart';
+import 'package:clean_art/core/exports.dart';
+import 'package:clean_art/features/auth/presentation/screens/sign_up_screens/login_screen.dart';
 import 'package:clean_art/firebase_options.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +35,7 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.darkMode,
             home: child);
       },
-      child: SignUpScreen(),
+      child: LoginScreen(),
     );
   }
 }

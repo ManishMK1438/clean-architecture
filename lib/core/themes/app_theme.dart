@@ -6,11 +6,14 @@ class AppTheme {
         borderRadius: BorderRadius.circular(textFieldBorderRadius),
       );
   static final darkMode = ThemeData.dark().copyWith(
+      colorScheme:
+          ColorScheme.fromSwatch().copyWith(secondary: Colors.blueAccent),
       inputDecorationTheme: InputDecorationTheme(
           contentPadding: const EdgeInsets.all(textFieldPadding),
           border: _border(),
           enabledBorder: _border(),
-          focusedBorder: _border(color: focusedBorderColor)),
+          focusedBorder: _border(color: focusedBorderColor),
+          errorBorder: _border(color: errorBorderColor)),
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

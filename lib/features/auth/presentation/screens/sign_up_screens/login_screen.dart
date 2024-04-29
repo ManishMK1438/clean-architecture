@@ -1,28 +1,26 @@
-import 'package:clean_art/core/exports.dart';
-import 'package:clean_art/features/auth/presentation/widgets/auth_field.dart';
+import 'package:clean_art/features/auth/presentation/screens/sign_up_screens/sign_up_screen.dart';
 import 'package:flutter/gestures.dart';
 
-class SignUpScreen extends StatefulWidget {
-  SignUpScreen({super.key});
+import '../../../../../core/exports.dart';
+import '../../widgets/auth_field.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final appStrings = AppStrings();
-
   final appFonts = AppStyles();
-
   final appNavigation = AppNavigation();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  final _nameCont = TextEditingController();
   final _emailCont = TextEditingController();
   final _passCont = TextEditingController();
 
   @override
   void dispose() {
-    _nameCont.dispose();
     _emailCont.dispose();
     _passCont.dispose();
     super.dispose();
@@ -39,15 +37,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                appStrings.signUp,
+                appStrings.login,
                 style: appFonts.normal(size: 32),
               ),
               Gap(40.h),
-              AuthField(
-                hintText: appStrings.name,
-                cont: _nameCont,
-              ),
-              Gap(20.h),
               AuthField(
                 hintText: appStrings.email,
                 cont: _emailCont,
@@ -61,18 +54,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Gap(60.h),
               ElevatedButton(
                 onPressed: () {},
-                child: Text(appStrings.signUp),
+                child: Text(appStrings.login),
               ),
               Gap(20.h),
               RichText(
                   text: TextSpan(children: [
                 TextSpan(
-                    text: appStrings.alreadyHaveAccount,
-                    style: appFonts.normal()),
+                    text: appStrings.dontHaveAccount, style: appFonts.normal()),
                 TextSpan(
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => appNavigation.pop(context: context),
-                    text: appStrings.login,
+                      ..onTap = () => appNavigation.push(
+                          context: context, screen: SignUpScreen()),
+                    text: appStrings.signUp,
                     style: appFonts.normal(
                         weight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.secondary)),

@@ -11,7 +11,7 @@ class AppStyles {
 
   TextStyle darkBtnTextStyle({double? size, FontWeight? weight, Color? color}) {
     return TextStyle(
-      fontSize: size ?? 14.sp,
+      fontSize: size ?? 16.sp,
       fontWeight: weight ?? FontWeight.w600,
       color: color ?? Colors.white,
     );
