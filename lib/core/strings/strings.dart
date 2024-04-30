@@ -7,4 +7,5 @@ class AppStrings {
   final login = "Login";
   final dontHaveAccount = "Don't have an account? ";
   final authValidatorStr = "is required";
+  final userNotFound = "User Not Found!";
 }

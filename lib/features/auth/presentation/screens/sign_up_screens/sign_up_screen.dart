@@ -1,6 +1,8 @@
 import 'package:clean_art/core/exports.dart';
+import 'package:clean_art/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_art/features/auth/presentation/widgets/auth_field.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({super.key});
@@ -60,7 +62,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               Gap(60.h),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (_key.currentState!.validate()) {
+                    context.read<AuthBloc>().add(
+                          AuthSignUp(
+                            name: _nameCont.text.trim(),
+                            email: _emailCont.text.trim(),
+                            password: _passCont.text.trim(),
+                          ),
+                        );
+                  }
+                },
                 child: Text(appStrings.signUp),
               ),
               Gap(20.h),
