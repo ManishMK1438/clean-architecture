@@ -4,8 +4,13 @@ export 'package:flutter/material.dart';
 //packages
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:gap/gap.dart';
+export 'package:top_snackbar_flutter/custom_snack_bar.dart';
+export 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 export 'consts/consts.dart';
+export 'core_widgets/app_loader.dart';
+export 'core_widgets/toasts.dart';
+export 'dependency_injection.dart';
 export 'errors/error.dart';
 export 'navigation/app_navigation.dart';
 //files

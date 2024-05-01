@@ -17,6 +17,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final appFonts = AppStyles();
 
   final appNavigation = AppNavigation();
+
+  final _toast = Toasts();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameCont = TextEditingController();
   final _emailCont = TextEditingController();
@@ -61,19 +63,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 obscure: true,
               ),
               Gap(60.h),
-              ElevatedButton(
-                onPressed: () {
-                  if (_key.currentState!.validate()) {
-                    context.read<AuthBloc>().add(
-                          AuthSignUp(
-                            name: _nameCont.text.trim(),
-                            email: _emailCont.text.trim(),
-                            password: _passCont.text.trim(),
-                          ),
-                        );
+              BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthFailure) {
+                    _toast.errorToast(context: context, text: state.error);
+                  }
+                  if (state is AuthSuccess) {
+                    _toast.successToast(
+                        context: context, text: appStrings.userSignedUp);
                   }
                 },
-                child: Text(appStrings.signUp),
+                builder: (context, state) {
+                  if (state is AuthLoading) {
+                    return const AppLoader();
+                  }
+                  return ElevatedButton(
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      if (_key.currentState!.validate()) {
+                        context.read<AuthBloc>().add(
+                              AuthSignUp(
+                                name: _nameCont.text.trim(),
+                                email: _emailCont.text.trim(),
+                                password: _passCont.text.trim(),
+                              ),
+                            );
+                      }
+                    },
+                    child: Text(appStrings.signUp),
+                  );
+                },
               ),
               Gap(20.h),
               RichText(

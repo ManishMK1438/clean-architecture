@@ -5,6 +5,6 @@ abstract interface class AuthRepository {
   ResultFuture<User> signUpWithEmailAndPass(
       {required String name, required String email, required String password});
 
-  ResultVoid loginWithEmailAndPass(
+  ResultFuture<User> loginWithEmailAndPass(
       {required String email, required String password});
 }

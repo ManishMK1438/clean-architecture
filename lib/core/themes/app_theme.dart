@@ -13,6 +13,7 @@ class AppTheme {
           border: _border(),
           enabledBorder: _border(),
           focusedBorder: _border(color: focusedBorderColor),
+          focusedErrorBorder: _border(color: errorBorderColor),
           errorBorder: _border(color: errorBorderColor)),
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(

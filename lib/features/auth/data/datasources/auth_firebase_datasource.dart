@@ -6,20 +6,34 @@ abstract interface class AuthFirebaseDatasource {
   Future<UserModel> signUpWithEmailAndPass(
       {required String name, required String email, required String password});
 
-  ResultVoid loginWithEmailAndPass(
+  Future<UserModel> loginWithEmailAndPass(
       {required String email, required String password});
 }
 
 class AuthFirebaseDataSourceImpl extends AuthFirebaseDatasource {
   final FirebaseAuth _firebaseAuth;
   final _appStrings = AppStrings();
+
   AuthFirebaseDataSourceImpl({required FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth;
+
   @override
-  ResultVoid loginWithEmailAndPass(
-      {required String email, required String password}) {
-    // TODO: implement loginWithEmailAndPass
-    throw UnimplementedError();
+  Future<UserModel> loginWithEmailAndPass(
+      {required String email, required String password}) async {
+    try {
+      final response = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      if (response.user == null) {
+        throw ServerError(message: _appStrings.userNotFound);
+      }
+      return UserModel(
+          id: response.user!.uid, name: response.user!.displayName ?? "");
+    } on FirebaseAuthException catch (e, s) {
+      throw ServerError(message: e.message!);
+    } catch (e, s) {
+      throw ServerError(message: e.toString());
+    }
   }
 
   @override

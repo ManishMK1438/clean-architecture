@@ -9,10 +9,11 @@ class AuthRepoImpl implements AuthRepository {
   AuthRepoImpl({required AuthFirebaseDatasource datasource})
       : _datasource = datasource;
   @override
-  ResultVoid loginWithEmailAndPass(
+  ResultFuture<User> loginWithEmailAndPass(
       {required String email, required String password}) {
-    // TODO: implement loginWithEmailAndPass
-    throw UnimplementedError();
+    return _wrapper(
+        fn: () async => await _datasource.loginWithEmailAndPass(
+            email: email, password: password));
   }
 
   @override
@@ -20,10 +21,17 @@ class AuthRepoImpl implements AuthRepository {
       {required String name,
       required String email,
       required String password}) async {
+    return _wrapper(
+        fn: () async => await _datasource.signUpWithEmailAndPass(
+            name: name, email: email, password: password));
+  }
+
+  ResultFuture<User> _wrapper({
+    required Future<User> Function() fn,
+  }) async {
     try {
-      final userModel = await _datasource.signUpWithEmailAndPass(
-          name: name, email: email, password: password);
-      return Right(userModel);
+      final user = await fn();
+      return Right(user);
     } on ServerError catch (e) {
       return Left(ServerError(message: e.message));
     }

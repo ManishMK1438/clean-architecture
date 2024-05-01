@@ -1,18 +1,15 @@
 import 'package:clean_art/core/exports.dart';
-import 'package:clean_art/features/auth/data/datasources/auth_firebase_datasource.dart';
-import 'package:clean_art/features/auth/data/repositories/auth_repo_impl.dart';
-import 'package:clean_art/features/auth/domain/usecases/user_signup.dart';
 import 'package:clean_art/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_art/features/auth/presentation/screens/sign_up_screens/login_screen.dart';
 import 'package:clean_art/firebase_options.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await initDependencies();
   runApp(
     DevicePreview(
       //enabled: !kReleaseMode,
@@ -26,7 +23,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   // This widget is the root of your application.
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -37,11 +34,8 @@ class MyApp extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-                create: (_) => AuthBloc(
-                    userSignUp: UserSignUp(
-                        authRepository: AuthRepoImpl(
-                            datasource: AuthFirebaseDataSourceImpl(
-                                firebaseAuth: _auth)))))
+              create: (_) => serviceLocator<AuthBloc>(),
+            ),
           ],
           child: MaterialApp(
               locale: DevicePreview.locale(context),
