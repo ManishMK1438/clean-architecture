@@ -10,4 +10,21 @@ class AppStrings {
   final userNotFound = "User Not Found!";
   final userSignedUp = "Signed up successfully!";
   final userLoggedIn = "Logged in successfully!";
+  final blogs = "Blogs";
+  final createBlogs = "Create Blog";
+  final selectImage = "Select Image";
+  final selectTopics = "Select topics :-";
+  final selected = "selected";
+  final List<String> blogTopics = [
+    "Business",
+    "Tech",
+    "Sports",
+    "Health & Fitness",
+    "Economy",
+    "World",
+    "Environment"
+  ];
+  final title = "Title";
+  final content = "Content";
+  final upload = "Upload";
 }

@@ -11,6 +11,7 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
           contentPadding: const EdgeInsets.all(textFieldPadding),
           border: _border(),
+          labelStyle: const TextStyle(color: focusedBorderColor),
           enabledBorder: _border(),
           focusedBorder: _border(color: focusedBorderColor),
           focusedErrorBorder: _border(color: errorBorderColor),
