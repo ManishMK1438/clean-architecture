@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:clean_art/features/blogs/presentation/bloc/blog_bloc.dart';
 import 'package:clean_art/features/blogs/presentation/widgets/blog_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/exports.dart';
 
@@ -16,12 +18,14 @@ class _AddNewBlogScreenState extends State<AddNewBlogScreen> {
   final _appNavigation = AppNavigation();
   final _appStyles = AppStyles();
   final _imgPicker = PickImage();
+  final _toast = Toasts();
 
   final _titleCont = TextEditingController();
   final _contentCont = TextEditingController();
 
   File? _pickedImg;
   List<String> _selectedTopics = [];
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -142,30 +146,48 @@ class _AddNewBlogScreenState extends State<AddNewBlogScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: appPadding),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Gap(30.h),
-              _selectImage(),
-              Gap(30.h),
-              _topics(),
-              Gap(40.h),
-              BlogField(
-                hintText: _appStrings.title,
-                cont: _titleCont,
-                maxLines: 1,
-              ),
-              Gap(20.h),
-              BlogField(
-                hintText: _appStrings.content,
-                cont: _contentCont,
-              ),
-              Gap(40.h),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(_appStrings.upload),
-              ),
-              Gap(40.h),
-            ],
+          child: Form(
+            key: _key,
+            child: Column(
+              children: [
+                Gap(30.h),
+                _selectImage(),
+                Gap(30.h),
+                _topics(),
+                Gap(40.h),
+                BlogField(
+                  hintText: _appStrings.title,
+                  cont: _titleCont,
+                  maxLines: 1,
+                ),
+                Gap(20.h),
+                BlogField(
+                  hintText: _appStrings.content,
+                  cont: _contentCont,
+                ),
+                Gap(40.h),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_key.currentState!.validate() && _pickedImg != null) {
+                      context.read<BlogBloc>().add(
+                            UploadBlog(
+                                id: "",
+                                image: _pickedImg!,
+                                title: _titleCont.text.trim(),
+                                content: _contentCont.text.trim(),
+                                topics: _selectedTopics),
+                          );
+                    }
+                    if (_pickedImg == null) {
+                      _toast.errorToast(
+                          context: context, text: _appStrings.pleaseSelectImg);
+                    }
+                  },
+                  child: Text(_appStrings.upload),
+                ),
+                Gap(40.h),
+              ],
+            ),
           ),
         ),
       ),

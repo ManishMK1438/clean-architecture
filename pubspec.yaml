@@ -41,6 +41,7 @@ dependencies:
   device_preview: ^1.1.0
   gap: ^3.0.1
   top_snackbar_flutter: ^3.1.0
+  uuid: 4.2.2
 
   #firebase
   firebase_core: ^2.24.2

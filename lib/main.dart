@@ -1,6 +1,7 @@
 import 'package:clean_art/core/exports.dart';
 import 'package:clean_art/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_art/features/auth/presentation/screens/sign_up_screens/login_screen.dart';
+import 'package:clean_art/features/blogs/presentation/bloc/blog_bloc.dart';
 import 'package:clean_art/features/blogs/presentation/screens/blog_screen.dart';
 import 'package:clean_art/firebase_options.dart';
 import 'package:device_preview/device_preview.dart';
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
             providers: [
               BlocProvider(
                 create: (_) => serviceLocator<AuthBloc>(),
+              ),
+              BlocProvider(
+                create: (_) => serviceLocator<BlogBloc>(),
               ),
             ],
             child: MaterialApp(

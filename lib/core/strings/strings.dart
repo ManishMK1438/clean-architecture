@@ -27,4 +27,5 @@ class AppStrings {
   final title = "Title";
   final content = "Content";
   final upload = "Upload";
+  final pleaseSelectImg = "Please select an image first!";
 }

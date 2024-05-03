@@ -1,5 +1,7 @@
 //flutter
+export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:equatable/equatable.dart';
+export 'package:firebase_storage/firebase_storage.dart';
 export 'package:flutter/material.dart';
 //packages
 export 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +9,7 @@ export 'package:gap/gap.dart';
 export 'package:image_picker/image_picker.dart';
 export 'package:top_snackbar_flutter/custom_snack_bar.dart';
 export 'package:top_snackbar_flutter/top_snack_bar.dart';
+export 'package:uuid/uuid.dart';
 
 //core
 export 'consts/consts.dart';
