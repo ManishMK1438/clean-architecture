@@ -33,3 +33,9 @@ final class AuthLogin extends AuthEvent {
   // TODO: implement props
   List<Object?> get props => [email, password];
 }
+
+final class AuthIsUserLoggedIn extends AuthEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}

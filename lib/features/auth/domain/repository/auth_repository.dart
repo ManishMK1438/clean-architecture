@@ -1,5 +1,6 @@
 import 'package:clean_art/core/exports.dart';
-import 'package:clean_art/features/auth/domain/entity/user.dart';
+
+import '../../../../core/common/entity/user.dart';
 
 abstract interface class AuthRepository {
   ResultFuture<User> signUpWithEmailAndPass(
@@ -7,4 +8,12 @@ abstract interface class AuthRepository {
 
   ResultFuture<User> loginWithEmailAndPass(
       {required String email, required String password});
+
+  ResultVoid saveUserInfo(
+      {required String name,
+      required String id,
+      required String password,
+      required String email});
+
+  ResultFuture<User> getCurrentUser();
 }

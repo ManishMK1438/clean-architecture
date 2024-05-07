@@ -1,6 +1,7 @@
 import 'package:clean_art/core/exports.dart';
-import 'package:clean_art/features/auth/domain/entity/user.dart';
 import 'package:clean_art/features/auth/domain/repository/auth_repository.dart';
+
+import '../../../../core/common/entity/user.dart';
 
 class UserLogin implements UseCase<User, UserLoginParams> {
   final AuthRepository _authRepository;

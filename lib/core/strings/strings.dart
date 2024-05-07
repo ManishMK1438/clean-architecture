@@ -28,4 +28,5 @@ class AppStrings {
   final content = "Content";
   final upload = "Upload";
   final pleaseSelectImg = "Please select an image first!";
+  final logInAgain = "User not found! Please log in again.";
 }

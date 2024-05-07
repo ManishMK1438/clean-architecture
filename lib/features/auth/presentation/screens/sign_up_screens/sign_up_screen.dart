@@ -1,6 +1,7 @@
 import 'package:clean_art/core/exports.dart';
 import 'package:clean_art/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_art/features/auth/presentation/widgets/auth_field.dart';
+import 'package:clean_art/features/blogs/presentation/screens/blog_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -71,6 +72,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   if (state is AuthSuccess) {
                     _toast.successToast(
                         context: context, text: appStrings.userSignedUp);
+                    appNavigation.pushAndRemove(
+                        context: context, screen: BlogsScreen());
                   }
                 },
                 builder: (context, state) {

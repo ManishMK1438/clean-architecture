@@ -2,6 +2,7 @@ import 'package:clean_art/core/exports.dart';
 import 'package:clean_art/features/auth/data/datasources/auth_firebase_datasource.dart';
 import 'package:clean_art/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:clean_art/features/auth/domain/repository/auth_repository.dart';
+import 'package:clean_art/features/auth/domain/usecases/current_user.dart';
 import 'package:clean_art/features/auth/domain/usecases/user_login.dart';
 import 'package:clean_art/features/auth/domain/usecases/user_signup.dart';
 import 'package:clean_art/features/auth/presentation/bloc/auth_bloc.dart';
@@ -30,6 +31,9 @@ Future<void> initDependencies() async {
   //firebase fireStore initialization
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   serviceLocator.registerLazySingleton(() => _firestore);
+
+  //core
+  serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
 
 _initAuth() {
@@ -38,6 +42,7 @@ _initAuth() {
     ..registerFactory<AuthFirebaseDatasource>(
       () => AuthFirebaseDataSourceImpl(
         firebaseAuth: serviceLocator(),
+        fireStore: serviceLocator(),
       ),
     )
     //repository
@@ -57,12 +62,18 @@ _initAuth() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => CurrentUser(
+        repository: serviceLocator(),
+      ),
+    )
     //BLOC
     ..registerLazySingleton(
       () => AuthBloc(
-        userSignUp: serviceLocator(),
-        userLogin: serviceLocator(),
-      ),
+          userSignUp: serviceLocator(),
+          userLogin: serviceLocator(),
+          currentUser: serviceLocator(),
+          appUserCubit: serviceLocator()),
     );
 }
 

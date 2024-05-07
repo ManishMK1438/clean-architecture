@@ -1,4 +1,4 @@
-import 'package:clean_art/features/blogs/presentation/screens/add_new_blog_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../../core/exports.dart';
@@ -18,7 +18,8 @@ class BlogsScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              _appNavigation.push(context: context, screen: AddNewBlogScreen());
+              FirebaseAuth.instance.signOut();
+              //_appNavigation.push(context: context, screen: AddNewBlogScreen());
             },
             icon: const Icon(CupertinoIcons.add),
           )
