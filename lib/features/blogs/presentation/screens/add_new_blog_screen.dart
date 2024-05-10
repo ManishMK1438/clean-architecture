@@ -166,24 +166,48 @@ class _AddNewBlogScreenState extends State<AddNewBlogScreen> {
                   cont: _contentCont,
                 ),
                 Gap(40.h),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_key.currentState!.validate() && _pickedImg != null) {
-                      context.read<BlogBloc>().add(
-                            UploadBlog(
-                                id: "",
-                                image: _pickedImg!,
-                                title: _titleCont.text.trim(),
-                                content: _contentCont.text.trim(),
-                                topics: _selectedTopics),
-                          );
+                BlocConsumer<BlogBloc, BlogState>(
+                  listener: (context, state) {
+                    if (state is BlogFailure) {
+                      _toast.errorToast(context: context, text: state.error);
                     }
-                    if (_pickedImg == null) {
-                      _toast.errorToast(
-                          context: context, text: _appStrings.pleaseSelectImg);
+                    if (state is UploadBlogSuccess) {
+                      _appNavigation.pop(context: context);
+                      _toast.successToast(
+                          context: context,
+                          text: _appStrings.blogUploadedSuccess);
                     }
                   },
-                  child: Text(_appStrings.upload),
+                  builder: (context, state) {
+                    if (state is BlogLoading) {
+                      return const AppLoader();
+                    }
+                    return ElevatedButton(
+                      onPressed: () {
+                        if (_key.currentState!.validate() &&
+                            _pickedImg != null) {
+                          final posterId = (context.read<AppUserCubit>().state
+                                  as AppUserLoggedIn)
+                              .user
+                              .id;
+                          context.read<BlogBloc>().add(
+                                UploadBlog(
+                                    id: posterId,
+                                    image: _pickedImg!,
+                                    title: _titleCont.text.trim(),
+                                    content: _contentCont.text.trim(),
+                                    topics: _selectedTopics),
+                              );
+                        }
+                        if (_pickedImg == null) {
+                          _toast.errorToast(
+                              context: context,
+                              text: _appStrings.pleaseSelectImg);
+                        }
+                      },
+                      child: Text(_appStrings.upload),
+                    );
+                  },
                 ),
                 Gap(40.h),
               ],

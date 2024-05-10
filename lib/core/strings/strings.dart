@@ -29,4 +29,9 @@ class AppStrings {
   final upload = "Upload";
   final pleaseSelectImg = "Please select an image first!";
   final logInAgain = "User not found! Please log in again.";
+  final blogUploadedSuccess = "Blog Uploaded Successfully";
+}
+
+class AppImages {
+  final errorGif = "assets/gif/error.gif";
 }

@@ -19,7 +19,7 @@ class BlogModel extends Blog {
       'title': title,
       'content': content,
       'topics': topics,
-      'updatedAt': updatedAt
+      'updatedAt': updatedAt.toIso8601String()
     };
   }
 
@@ -30,8 +30,8 @@ class BlogModel extends Blog {
         imageUrl: map['imageUrl'] as String,
         title: map['title'] as String,
         content: map['content'] as String,
-        topics: map['topics'] ?? [],
-        updatedAt: map['updatedAt']);
+        topics: List<String>.from(map['topics']),
+        updatedAt: DateTime.parse(map['updatedAt']));
   }
 
   BlogModel copyWith({

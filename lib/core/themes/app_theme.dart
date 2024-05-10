@@ -6,6 +6,9 @@ class AppTheme {
         borderRadius: BorderRadius.circular(textFieldBorderRadius),
       );
   static final darkMode = ThemeData.dark().copyWith(
+      chipTheme: const ChipThemeData(
+        backgroundColor: Colors.white,
+      ),
       colorScheme:
           ColorScheme.fromSwatch().copyWith(secondary: Colors.blueAccent),
       inputDecorationTheme: InputDecorationTheme(

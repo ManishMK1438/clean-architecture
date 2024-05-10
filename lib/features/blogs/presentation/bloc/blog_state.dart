@@ -14,9 +14,16 @@ final class BlogLoading extends BlogState {
   List<Object> get props => [];
 }
 
-final class BlogSuccess extends BlogState {
+final class UploadBlogSuccess extends BlogState {
   @override
   List<Object> get props => [];
+}
+
+final class FetchBlogsSuccess extends BlogState {
+  final List<Blog> blogsList;
+  const FetchBlogsSuccess({required this.blogsList});
+  @override
+  List<Object> get props => [blogsList];
 }
 
 final class BlogFailure extends BlogState {

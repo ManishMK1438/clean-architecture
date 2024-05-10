@@ -9,6 +9,8 @@ abstract class BlogFirebaseDataSource {
 
   Future<String> uploadImage(
       {required BlogModel blogModel, required File file});
+
+  Future<List<BlogModel>> getBlogs();
 }
 
 class BlogFirebaseDataSourceImpl implements BlogFirebaseDataSource {
@@ -47,6 +49,25 @@ class BlogFirebaseDataSourceImpl implements BlogFirebaseDataSource {
       await ref.putFile(file);
       final url = await ref.getDownloadURL();
       return url;
+    } on FirebaseException catch (e, s) {
+      throw ServerError(message: e.message!);
+    } catch (e, s) {
+      throw ServerError(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<BlogModel>> getBlogs() async {
+    try {
+      final resp = await _fireStore
+          .collection("Blogs")
+          .withConverter<BlogModel>(
+            fromFirestore: (snapshot, _) => BlogModel.fromMap(snapshot.data()!),
+            toFirestore: (movie, _) => movie.toMap(),
+          )
+          .get()
+          .then((value) => value.docs);
+      return resp.map((e) => e.data()).toList();
     } on FirebaseException catch (e, s) {
       throw ServerError(message: e.message!);
     } catch (e, s) {

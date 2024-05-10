@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clean_art/core/exports.dart';
 import 'package:clean_art/features/blogs/data/datasources/blog_firebase_datasource.dart';
 import 'package:clean_art/features/blogs/data/models/blog_model.dart';
+import 'package:clean_art/features/blogs/domain/entities/blog.dart';
 import 'package:clean_art/features/blogs/domain/repository/blog_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -35,6 +36,16 @@ class BlogRepositoryImpl implements BlogRepository {
       _model = _model.copyWith(imageUrl: imgResp);
       final response = await _dataSource.uploadBlog(blogModel: _model);
       return Right(response);
+    } on ServerError catch (e) {
+      return Left(ServerError(message: e.message));
+    }
+  }
+
+  @override
+  ResultFuture<List<Blog>> fetchBlogs() async {
+    try {
+      final resp = await _dataSource.getBlogs();
+      return Right(resp);
     } on ServerError catch (e) {
       return Left(ServerError(message: e.message));
     }

@@ -23,3 +23,8 @@ class UploadBlog extends BlogEvent {
     required this.topics,
   });
 }
+
+class ReceiveBlogs extends BlogEvent {
+  @override
+  List<Object?> get props => [];
+}
