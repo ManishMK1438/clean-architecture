@@ -5,6 +5,7 @@ import 'package:clean_art/core/exports.dart';
 import 'package:clean_art/features/blogs/domain/usecases/fetch_blogs.dart';
 
 import '../../domain/entities/blog.dart';
+import '../../domain/usecases/fetch_blog_by_id.dart';
 import '../../domain/usecases/upload_blog.dart' as use_case;
 
 part 'blog_event.dart';
@@ -13,15 +14,21 @@ part 'blog_state.dart';
 class BlogBloc extends Bloc<BlogEvent, BlogState> {
   final use_case.UploadBlog _uploadBlogUseCase;
   final FetchBlogs _fetchBlogs;
+  final FetchBlogById _blogsById;
+
   BlogBloc(
       {required use_case.UploadBlog uploadBlogUseCase,
-      required FetchBlogs fetchBlogs})
+      required FetchBlogs fetchBlogs,
+      required FetchBlogById fetchBlogById})
       : _uploadBlogUseCase = uploadBlogUseCase,
         _fetchBlogs = fetchBlogs,
-        super(BlogInitial()) {
-    on<BlogEvent>((event, emit) => emit(BlogLoading()));
+        _blogsById = fetchBlogById,
+        super(const BlogState()) {
+    on<BlogEvent>(
+        (event, emit) => emit(state.copyWith(status: BlogStatus.loading)));
     on<UploadBlog>(_uploadBlog);
     on<ReceiveBlogs>(_receiveBlogs);
+    on<GetBlogById>(_getById);
   }
 
   _uploadBlog(UploadBlog event, Emitter<BlogState> emit) async {
@@ -33,9 +40,9 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
         topics: event.topics));
 
     response.fold(
-      (l) => emit(BlogFailure(error: l.message)),
+      (l) => emit(state.copyWith(error: l.message)),
       (r) => emit(
-        UploadBlogSuccess(),
+        state.copyWith(status: BlogStatus.uploadSuccess),
       ),
     );
   }
@@ -43,7 +50,20 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
   _receiveBlogs(ReceiveBlogs event, Emitter<BlogState> emit) async {
     final resp = await _fetchBlogs(NoParams());
 
-    resp.fold((l) => emit(BlogFailure(error: l.message)),
-        (r) => emit(FetchBlogsSuccess(blogsList: r)));
+    resp.fold(
+        (l) => emit(state.copyWith(error: l.message)),
+        (r) =>
+            emit(state.copyWith(status: BlogStatus.getSuccess, blogList: r)));
+  }
+
+  _getById(GetBlogById event, Emitter<BlogState> emit) async {
+    final resp = await _blogsById(event.id);
+
+    resp.fold(
+      (l) => emit(state.copyWith(error: l.message)),
+      (r) => emit(
+        state.copyWith(status: BlogStatus.getByIdSuccess, blog: r),
+      ),
+    );
   }
 }

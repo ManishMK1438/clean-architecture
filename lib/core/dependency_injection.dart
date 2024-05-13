@@ -9,6 +9,7 @@ import 'package:clean_art/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_art/features/blogs/data/datasources/blog_firebase_datasource.dart';
 import 'package:clean_art/features/blogs/data/repositories/blog_repo_impl.dart';
 import 'package:clean_art/features/blogs/domain/repository/blog_repository.dart';
+import 'package:clean_art/features/blogs/domain/usecases/fetch_blog_by_id.dart';
 import 'package:clean_art/features/blogs/domain/usecases/fetch_blogs.dart';
 import 'package:clean_art/features/blogs/domain/usecases/upload_blog.dart'
     as use_case;
@@ -104,11 +105,17 @@ _initBlog() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => FetchBlogById(
+        repository: serviceLocator(),
+      ),
+    )
     //BLOC
     ..registerLazySingleton(
       () => BlogBloc(
         uploadBlogUseCase: serviceLocator(),
         fetchBlogs: serviceLocator(),
+        fetchBlogById: serviceLocator(),
       ),
     );
 }

@@ -32,3 +32,4 @@ export 'themes/app_theme.dart';
 export 'typedef/typedef.dart';
 export 'usecase/usecase.dart';
 export 'utils/pick_image.dart';
+export 'utils/time_ago_convert.dart';

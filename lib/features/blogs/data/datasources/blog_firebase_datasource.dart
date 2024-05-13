@@ -11,12 +11,15 @@ abstract class BlogFirebaseDataSource {
       {required BlogModel blogModel, required File file});
 
   Future<List<BlogModel>> getBlogs();
+
+  Future<BlogModel> getBlogById({required String id});
 }
 
 class BlogFirebaseDataSourceImpl implements BlogFirebaseDataSource {
   final FirebaseFirestore _fireStore;
   final FirebaseStorage _storage;
   final _uuid = const Uuid();
+  final _appStrings = AppStrings();
   BlogFirebaseDataSourceImpl({
     required FirebaseFirestore fireStore,
     required FirebaseStorage storage,
@@ -61,6 +64,7 @@ class BlogFirebaseDataSourceImpl implements BlogFirebaseDataSource {
     try {
       final resp = await _fireStore
           .collection("Blogs")
+          .orderBy("updatedAt", descending: true)
           .withConverter<BlogModel>(
             fromFirestore: (snapshot, _) => BlogModel.fromMap(snapshot.data()!),
             toFirestore: (movie, _) => movie.toMap(),
@@ -68,6 +72,29 @@ class BlogFirebaseDataSourceImpl implements BlogFirebaseDataSource {
           .get()
           .then((value) => value.docs);
       return resp.map((e) => e.data()).toList();
+    } on FirebaseException catch (e, s) {
+      throw ServerError(message: e.message!);
+    } catch (e, s) {
+      throw ServerError(message: e.toString());
+    }
+  }
+
+  @override
+  Future<BlogModel> getBlogById({required String id}) async {
+    try {
+      final resp = await _fireStore
+          .collection("Blogs")
+          .doc(id)
+          .withConverter<BlogModel>(
+            fromFirestore: (snapshot, _) => BlogModel.fromMap(snapshot.data()!),
+            toFirestore: (movie, _) => movie.toMap(),
+          )
+          .get();
+      if (resp.exists) {
+        return resp.data()!;
+      } else {
+        throw ServerError(message: _appStrings.blogNotFound);
+      }
     } on FirebaseException catch (e, s) {
       throw ServerError(message: e.message!);
     } catch (e, s) {

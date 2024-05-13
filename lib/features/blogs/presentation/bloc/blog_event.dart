@@ -28,3 +28,10 @@ class ReceiveBlogs extends BlogEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetBlogById extends BlogEvent {
+  final String id;
+  const GetBlogById({required this.id});
+  @override
+  List<Object?> get props => [id];
+}

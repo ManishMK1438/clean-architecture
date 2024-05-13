@@ -30,6 +30,8 @@ class AppStrings {
   final pleaseSelectImg = "Please select an image first!";
   final logInAgain = "User not found! Please log in again.";
   final blogUploadedSuccess = "Blog Uploaded Successfully";
+  final details = "Details";
+  final blogNotFound = "Blog not found!";
 }
 
 class AppImages {

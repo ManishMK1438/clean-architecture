@@ -1,4 +1,5 @@
 import 'package:clean_art/features/blogs/domain/entities/blog.dart';
+import 'package:clean_art/features/blogs/presentation/widgets/topics.dart';
 
 import '../../../../core/exports.dart';
 
@@ -26,21 +27,6 @@ class BlogCard extends StatelessWidget {
     );
   }
 
-  Widget _topics(BuildContext context) {
-    return Row(
-        children: List.generate(
-      blog.topics.length,
-      (index) => Container(
-        margin: EdgeInsets.only(left: 5.w),
-        child: Chip(
-          label: Text(
-            blog.topics[index],
-          ),
-        ),
-      ),
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -51,7 +37,9 @@ class BlogCard extends StatelessWidget {
         children: [
           _image(),
           Gap(12.h),
-          _topics(context),
+          Topics(
+            topics: blog.topics,
+          ),
           Gap(12.h),
           Padding(
             padding: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 10.h),

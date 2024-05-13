@@ -1,3 +1,4 @@
+import 'package:clean_art/features/blogs/presentation/screens/view_blog_screen.dart';
 import 'package:clean_art/features/blogs/presentation/widgets/blog_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,7 @@ import '../bloc/blog_bloc.dart';
 import 'add_new_blog_screen.dart';
 
 class BlogsScreen extends StatefulWidget {
-  BlogsScreen({super.key});
+  const BlogsScreen({super.key});
 
   @override
   State<BlogsScreen> createState() => _BlogsScreenState();
@@ -34,7 +35,6 @@ class _BlogsScreenState extends State<BlogsScreen> {
           actions: [
             IconButton(
               onPressed: () {
-                // FirebaseAuth.instance.signOut();
                 _appNavigation.push(
                     context: context, screen: const AddNewBlogScreen());
               },
@@ -46,20 +46,28 @@ class _BlogsScreenState extends State<BlogsScreen> {
           padding: EdgeInsets.only(top: 16.h),
           child: BlocBuilder<BlogBloc, BlogState>(
             builder: (context, state) {
-              if (state is BlogLoading) {
+              if (state.status == BlogStatus.loading) {
                 return const AppLoader();
               }
-              if (state is BlogFailure) {
+              if (state.status == BlogStatus.failure) {
                 return Center(child: AppErrorWidget(error: state.error));
               }
-              if (state is FetchBlogsSuccess) {
+              if (state.status == BlogStatus.getSuccess ||
+                  state.status == BlogStatus.getByIdSuccess) {
                 return ListView.separated(
                     shrinkWrap: true,
                     padding: const EdgeInsets.symmetric(horizontal: appPadding),
-                    itemBuilder: (cts, index) =>
-                        BlogCard(blog: state.blogsList[index]),
+                    itemBuilder: (cts, index) => InkWell(
+                        onTap: () {
+                          context
+                              .read<BlogBloc>()
+                              .add(GetBlogById(id: state.blogList[index].id));
+                          _appNavigation.push(
+                              context: context, screen: ViewBlogScreen());
+                        },
+                        child: BlogCard(blog: state.blogList[index])),
                     separatorBuilder: (ctx, ind) => Gap(20.h),
-                    itemCount: state.blogsList.length);
+                    itemCount: state.blogList.length);
               }
               return const SizedBox();
             },

@@ -168,10 +168,10 @@ class _AddNewBlogScreenState extends State<AddNewBlogScreen> {
                 Gap(40.h),
                 BlocConsumer<BlogBloc, BlogState>(
                   listener: (context, state) {
-                    if (state is BlogFailure) {
+                    if (state.status == BlogStatus.failure) {
                       _toast.errorToast(context: context, text: state.error);
                     }
-                    if (state is UploadBlogSuccess) {
+                    if (state.status == BlogStatus.uploadSuccess) {
                       _appNavigation.pop(context: context);
                       _toast.successToast(
                           context: context,
@@ -179,7 +179,7 @@ class _AddNewBlogScreenState extends State<AddNewBlogScreen> {
                     }
                   },
                   builder: (context, state) {
-                    if (state is BlogLoading) {
+                    if (state.status == BlogStatus.loading) {
                       return const AppLoader();
                     }
                     return ElevatedButton(

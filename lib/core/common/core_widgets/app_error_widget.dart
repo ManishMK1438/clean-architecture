@@ -8,20 +8,22 @@ class AppErrorWidget extends StatelessWidget {
   final _appStyle = AppStyles();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image.asset(_appImages.errorGif),
-        const SizedBox(
-          height: 50,
-        ),
-        Text(
-          error,
-          style: _appStyle.normal(),
-        )
-      ],
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(_appImages.errorGif),
+          const SizedBox(
+            height: 50,
+          ),
+          Text(
+            error,
+            style: _appStyle.normal(),
+          )
+        ],
+      ),
     );
   }
 }

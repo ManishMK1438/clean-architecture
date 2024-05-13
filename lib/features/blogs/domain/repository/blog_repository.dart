@@ -14,4 +14,6 @@ abstract interface class BlogRepository {
   });
 
   ResultFuture<List<Blog>> fetchBlogs();
+
+  ResultFuture<Blog> getBlogById({required String id});
 }

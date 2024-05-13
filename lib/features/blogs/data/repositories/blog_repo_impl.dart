@@ -50,4 +50,14 @@ class BlogRepositoryImpl implements BlogRepository {
       return Left(ServerError(message: e.message));
     }
   }
+
+  @override
+  ResultFuture<Blog> getBlogById({required String id}) async {
+    try {
+      final resp = await _dataSource.getBlogById(id: id);
+      return Right(resp);
+    } on ServerError catch (e) {
+      return Left(ServerError(message: e.message));
+    }
+  }
 }
